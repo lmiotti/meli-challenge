@@ -22,7 +22,7 @@ android {
             useSupportLibrary = true
         }
 
-    buildConfigField("String", "BASE_URL", "\"https://api.rawg.io/api/\"")
+        buildConfigField("String", "BASE_URL", "\"https://www.thecocktaildb.com/\"")
     }
 
     buildTypes {
