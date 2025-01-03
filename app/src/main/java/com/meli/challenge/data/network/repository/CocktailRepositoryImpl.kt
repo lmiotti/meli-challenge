@@ -7,17 +7,17 @@ import com.meli.challenge.utils.NetworkUtils
 import javax.inject.Inject
 
 class CocktailRepositoryImpl @Inject constructor(
-    private val cocktailService: CocktailService
+    private val service: CocktailService
 ): CocktailRepository {
     override suspend fun getCocktailByName(name: String): Resource<CocktailListApiResponse> {
-        return NetworkUtils.safeApiCall { cocktailService.getCocktailByName(name) }
+        return NetworkUtils.safeApiCall { service.getCocktailByName(name) }
     }
 
     override suspend fun getCocktailByFirstLetter(firstLetter: String): Resource<CocktailListApiResponse> {
-        return NetworkUtils.safeApiCall { cocktailService.getCocktailByFirstLetter(firstLetter) }
+        return NetworkUtils.safeApiCall { service.getCocktailByFirstLetter(firstLetter) }
     }
 
     override suspend fun getCocktailDetail(id: Long): Resource<CocktailListApiResponse> {
-        return NetworkUtils.safeApiCall { cocktailService.getCocktailDetails(id) }
+        return NetworkUtils.safeApiCall { service.getCocktailDetails(id) }
     }
 }

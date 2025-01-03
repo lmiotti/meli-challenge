@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.meli.challenge.data.network.repository.CocktailRepository
-import com.meli.challenge.ui.theme.BootstrapTheme
+import com.meli.challenge.presentation.ui.theme.BootstrapTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

@@ -2,7 +2,6 @@ package com.meli.challenge.data.network.repository
 
 import com.meli.challenge.data.network.model.CocktailListApiResponse
 import com.meli.challenge.models.Resource
-import retrofit2.Response
 
 interface CocktailRepository {
 

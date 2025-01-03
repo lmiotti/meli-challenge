@@ -1,6 +1,5 @@
 package com.meli.challenge.data.network.service
 
-import com.meli.challenge.data.network.model.CocktailApiResponse
 import com.meli.challenge.data.network.model.CocktailListApiResponse
 import retrofit2.Response
 import retrofit2.http.GET

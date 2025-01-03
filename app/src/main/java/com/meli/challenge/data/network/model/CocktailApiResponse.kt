@@ -1,6 +1,7 @@
 package com.meli.challenge.data.network.model
 
 import com.google.gson.annotations.SerializedName
+import com.meli.challenge.domain.model.Cocktail
 
 data class CocktailApiResponse(
     @SerializedName("idDrink") val id: String,
@@ -21,6 +22,7 @@ data class CocktailApiResponse(
     @SerializedName("strInstructionsZH-HANT") val instructionsZhHant: String?,
     @SerializedName("strDrinkThumb") val thumbnail: String,
     @SerializedName("strIngredient1") val ingredient1: String?,
+    @SerializedName("strIngredient2") val ingredient2: String?,
     @SerializedName("strIngredient3") val ingredient3: String?,
     @SerializedName("strIngredient4") val ingredient4: String?,
     @SerializedName("strIngredient5") val ingredient5: String?,
@@ -53,4 +55,19 @@ data class CocktailApiResponse(
     @SerializedName("strImageAttribution") val imageAttribution: String,
     @SerializedName("strCreativeCommonsConfirmed") val creativeCommonsConfirmed: String,
     @SerializedName("dateModified") val dateModified: String
-)
+) {
+    fun toCocktail(): Cocktail {
+        return Cocktail(
+            name = this.name,
+            ingredient1 = this.ingredient1,
+            ingredient2 = this.ingredient2,
+            ingredient3 = this.ingredient3,
+            ingredient4 = this.ingredient4,
+            isAlcoholic = this.alcoholic == IS_ALCOHOLIC
+        )
+    }
+
+    companion object {
+        private const val IS_ALCOHOLIC = "Alcoholic"
+    }
+}
