@@ -26,14 +26,11 @@ class CocktailViewModel @Inject constructor(
     val state: StateFlow<HomeState>
         get() = _state
 
-    private var _showError = MutableSharedFlow<String>()
-    val showError: SharedFlow<String>
-        get() = _showError
-
-
     fun handleIntent(intent: HomeIntent) {
         when(intent) {
             is HomeIntent.OnSearchTextChanged -> _state.update { it.copy(cocktailName = intent.name) }
+            is HomeIntent.OnDialogDismissClicked ->
+                _state.update { it.copy(showError = false) }
             is HomeIntent.OnSearchClicked -> searchCocktail()
         }
     }
@@ -51,8 +48,7 @@ class CocktailViewModel @Inject constructor(
                         )
                     }
                     is Resource.Failure -> {
-                        _showError.emit(result.error?.message ?: "")
-                        _state.update { it.copy(isLoading = false) }
+                        _state.update { it.copy(isLoading = false, showError = true) }
                     }
                 }
             }

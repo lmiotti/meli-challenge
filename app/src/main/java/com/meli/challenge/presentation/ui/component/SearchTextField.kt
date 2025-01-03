@@ -27,8 +27,7 @@ fun SearchTextField(
             imeAction = ImeAction.Search
         ),
         keyboardActions = KeyboardActions(
-            onSearch = { onSearchClicked() }
+            onSearch = { if (value.isNotEmpty()) onSearchClicked() }
         )
-        //trailingIcon = if (state.cocktailName.isEmpty()) null else Icons.Default.Close
     )
 }
