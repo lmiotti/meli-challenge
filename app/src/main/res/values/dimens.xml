@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Padding -->
+    <dimen name="padding_xs">2dp</dimen>
+    <dimen name="padding_s">5dp</dimen>
+    <dimen name="padding_m">10dp</dimen>
+    <dimen name="padding_l">15dp</dimen>
+    <dimen name="padding_xl">20dp</dimen>
+    <dimen name="padding_xxl">30dp</dimen>
+
+    <!-- Home -->
+    <dimen name="home_welcome_image">200dp</dimen>
+
+    <!-- Cocktail card -->
+    <dimen name="cocktail_card_stroke_width">0.5dp</dimen>
+    <dimen name="cocktail_card_elevation">5dp</dimen>
+    <dimen name="cocktail_card_ingredient_image_height">100dp</dimen>
+    <dimen name="cocktail_card_ingredient_grid_height">55dp</dimen>
+    <dimen name="cocktail_card_ingredient_bullet_size">4dp</dimen>
+
+</resources>

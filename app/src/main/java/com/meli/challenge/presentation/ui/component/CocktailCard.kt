@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,7 +18,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,14 +26,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.meli.challenge.R
 import com.meli.challenge.domain.model.Cocktail
+import com.meli.challenge.presentation.Constants.CocktailCard.COCKTAIL_CARD_ASPECT_RATIO
+import com.meli.challenge.presentation.Constants.Ingredients.GRID_CELLS
+import com.meli.challenge.presentation.Constants.Ingredients.INGREDIENTS_PREVIEW_SIZE
+import com.meli.challenge.presentation.Constants.Ingredients.MAX_LINES
 
 @Composable
 fun CocktailCard(
@@ -45,14 +47,21 @@ fun CocktailCard(
     Card(
         modifier = Modifier
             .fillMaxSize()
-            .aspectRatio(0.625f)
-            .padding(vertical = 5.dp)
+            .aspectRatio(COCKTAIL_CARD_ASPECT_RATIO)
+            .padding(
+                vertical = dimensionResource(id = R.dimen.padding_s)
+            )
             .background(Color.White)
             .clickable {
-               onCocktailClicked(cocktail.id)
+                onCocktailClicked(cocktail.id)
             },
-        border = BorderStroke(0.5.dp, Color.Black),
-        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
+        border = BorderStroke(
+            dimensionResource(id = R.dimen.cocktail_card_stroke_width),
+            Color.Black
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = dimensionResource(id = R.dimen.cocktail_card_elevation)
+        )
     ) {
         Column(
             modifier = Modifier.background(Color.White)
@@ -60,7 +69,7 @@ fun CocktailCard(
             Image(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp),
+                    .height(dimensionResource(id = R.dimen.cocktail_card_ingredient_image_height)),
                 contentScale = ContentScale.FillWidth,
                 painter = rememberAsyncImagePainter(cocktail.thumbnail),
                 contentDescription = null
@@ -68,17 +77,22 @@ fun CocktailCard(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 10.dp, horizontal = 20.dp)
+                    .padding(
+                        vertical = dimensionResource(id = R.dimen.padding_m),
+                        horizontal = dimensionResource(id = R.dimen.padding_xl)
+                    )
             ) {
                 Text(
                     cocktail.name,
-                    maxLines = 1,
+                    maxLines = MAX_LINES,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
                 )
                 Text(
-                    modifier = Modifier.padding(top = 20.dp),
-                    text = "Ingredients",
+                    modifier = Modifier.padding(
+                        top = dimensionResource(id = R.dimen.padding_xl)
+                    ),
+                    text = stringResource(id = R.string.cocktail_card_ingredients),
                     style = MaterialTheme.typography.titleMedium
                 )
                 CocktailCardIngredientGrid(ingredients = cocktail.ingredients)
@@ -90,7 +104,7 @@ fun CocktailCard(
                 R.drawable.ic_no_alcohol
             }
             Icon(
-                modifier = Modifier.padding(5.dp),
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_s)),
                 painter = painterResource(id = image),
                 contentDescription = null
             )
@@ -103,34 +117,39 @@ fun CocktailCardIngredientGrid(ingredients: List<String>) {
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxWidth()
-            .height(55.dp)
-            .padding(top = 10.dp),
-        columns = GridCells.Fixed(2),
+            .height(dimensionResource(id = R.dimen.cocktail_card_ingredient_grid_height))
+            .padding(dimensionResource(id = R.dimen.padding_m)),
+        columns = GridCells.Fixed(GRID_CELLS),
         userScrollEnabled = false
     ) {
-        items(ingredients.take(4).size) {
+        val auxIngredients = ingredients.take(INGREDIENTS_PREVIEW_SIZE)
+        items(auxIngredients.size) {
             Row(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 5.dp),
+                    .padding(
+                        horizontal = dimensionResource(id = R.dimen.padding_s)
+                    ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(
                     modifier = Modifier
-                        .padding(end = 5.dp)
-                        .size(4.dp)
+                        .padding(
+                            end = dimensionResource(id = R.dimen.padding_s)
+                        )
+                        .size(dimensionResource(id = R.dimen.cocktail_card_ingredient_bullet_size))
                         .background(Color.Black, shape = CircleShape),
                 )
 
-                if (ingredients.size > 4 && it == 3) {
+                if (ingredients.size > INGREDIENTS_PREVIEW_SIZE && it == auxIngredients.lastIndex) {
                     Text(
-                        "More...",
+                        stringResource(id = R.string.cocktail_card_more),
                         style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
                     )
                 } else {
                     Text(
                         ingredients[it],
-                        maxLines = 1,
+                        maxLines = MAX_LINES,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
                     )

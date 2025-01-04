@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">MeLi Challenge</string>
+    <string name="error">Error</string>
+    <string name="try_again">Please, try again later or check your internet connection</string>
+    <string name="ok">OK</string>
+
+    <!-- Home -->
+    <string name="home_welcome">Please enter a cocktail in the search bar to start using the application</string>
+
+    <!-- Cocktail card -->
+    <string name="cocktail_card_ingredients">Ingredients</string>
+    <string name="cocktail_card_more">More...</string>
+
 </resources>

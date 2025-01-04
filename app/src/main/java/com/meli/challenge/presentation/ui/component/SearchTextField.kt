@@ -22,7 +22,7 @@ fun SearchTextField(
         modifier = modifier.fillMaxWidth(),
         value = value,
         onValueChange = onValueChanged,
-        leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "") },
+        leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = null) },
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Search
         ),

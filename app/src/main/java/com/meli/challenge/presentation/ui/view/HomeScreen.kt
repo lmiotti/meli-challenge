@@ -5,17 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,18 +20,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.meli.challenge.R
+import com.meli.challenge.presentation.Constants
 import com.meli.challenge.presentation.ui.component.CocktailCard
+import com.meli.challenge.presentation.ui.component.LoadingCard
 import com.meli.challenge.presentation.ui.component.SearchTextField
 import com.meli.challenge.presentation.ui.intent.HomeIntent
 import com.meli.challenge.presentation.ui.state.HomeState
 import com.meli.challenge.presentation.viewmodel.CocktailViewModel
-import com.valentinilk.shimmer.shimmer
 
 @Composable
 fun HomeScreen(
@@ -62,8 +60,8 @@ fun HomeScreen(
         topBar = {
             SearchTextField(
                 modifier = Modifier
-                    .padding(top = 5.dp)
-                    .padding(horizontal = 10.dp),
+                    .padding(top = dimensionResource(id = R.dimen.padding_s))
+                    .padding(horizontal = dimensionResource(id = R.dimen.padding_m)),
                 value = state.cocktailName,
                 onValueChanged = { handleIntent(HomeIntent.OnSearchTextChanged(it)) },
                 onSearchClicked = { handleIntent(HomeIntent.OnSearchClicked) }
@@ -82,28 +80,21 @@ fun HomeScreenContent(
     handleIntent: (HomeIntent) -> Unit
 ) {
     if (state.showEmptyState) {
-        CocktailEmptyState()
+        CocktailWelcomeState()
     } else {
         LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(horizontal = 10.dp)
-                .padding(top = 5.dp)
+                .padding(horizontal = dimensionResource(id = R.dimen.padding_m))
+                .padding(top = dimensionResource(id = R.dimen.padding_s))
                 .background(Color.White),
-            columns = GridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            columns = GridCells.Fixed(Constants.Home.GRID_CELLS),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_m)),
         ) {
             if (state.isLoading) {
-                items(10) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(0.625f)
-                            .padding(vertical = 5.dp)
-                            .shimmer(),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
-                    ) {}
+                items(Constants.Home.LOADING_ITEMS) {
+                    LoadingCard()
                 }
             } else {
                 items(state.cocktails!!.size) {
@@ -117,21 +108,21 @@ fun HomeScreenContent(
 }
 
 @Composable
-fun CocktailEmptyState() {
+fun CocktailWelcomeState() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp),
+            .padding(dimensionResource(id = R.dimen.padding_l)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            modifier = Modifier.size(200.dp),
+            modifier = Modifier.size(dimensionResource(id = R.dimen.home_welcome_image)),
             painter = painterResource(id = R.drawable.ic_drink),
             contentDescription = null
         )
         Text(
-            "Please enter a cocktail in the search bar to start using the application",
+            stringResource(id = R.string.home_welcome),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge
         )
@@ -142,14 +133,14 @@ fun CocktailEmptyState() {
 fun NotFoundDialog(onDismissClicked: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismissClicked,
-        title = { Text(text = "Error") },
-        text = { Text(text = "Please, try again later or check your internet connection") },
-        confirmButton = { // 6
+        title = { Text(text = stringResource(id = R.string.error)) },
+        text = { Text(text = stringResource(id = R.string.try_again)) },
+        confirmButton = {
             Button(
                 onClick = onDismissClicked
             ) {
                 Text(
-                    text = "OK",
+                    text = stringResource(id = R.string.ok),
                     color = Color.White
                 )
             }
