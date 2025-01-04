@@ -87,7 +87,7 @@ fun HomeScreenContent(
                 .padding(paddingValues)
                 .padding(horizontal = dimensionResource(id = R.dimen.padding_m))
                 .padding(top = dimensionResource(id = R.dimen.padding_s))
-                .background(Color.White),
+                .background(MaterialTheme.colorScheme.background),
             columns = GridCells.Fixed(Constants.Home.GRID_CELLS),
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_m)),
         ) {
@@ -118,7 +118,7 @@ fun CocktailWelcomeState() {
         Image(
             modifier = Modifier.size(dimensionResource(id = R.dimen.home_welcome_image)),
             painter = painterResource(id = R.drawable.ic_drink),
-            contentDescription = null
+            contentDescription = null,
         )
         Text(
             stringResource(id = R.string.home_welcome),

@@ -148,7 +148,7 @@ fun DetailScreenContent(
                     .padding(horizontal = dimensionResource(id = R.dimen.padding_xl)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                BulletItem()
+                BulletItem(MaterialTheme.colorScheme.primary)
                 Text(
                     cocktail.ingredients[it].measure,
                     modifier = Modifier.padding(end = dimensionResource(id = R.dimen.padding_s)),

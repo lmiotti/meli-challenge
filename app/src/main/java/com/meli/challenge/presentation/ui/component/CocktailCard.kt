@@ -51,7 +51,7 @@ fun CocktailCard(
             .padding(
                 vertical = dimensionResource(id = R.dimen.padding_s)
             )
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .clickable {
                 onCocktailClicked(cocktail.id, cocktail.name)
             },
@@ -87,6 +87,7 @@ fun CocktailCard(
                     cocktail.name,
                     maxLines = MAX_LINES,
                     overflow = TextOverflow.Ellipsis,
+                    color = Color.Black,
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
                 )
                 Text(
@@ -94,6 +95,7 @@ fun CocktailCard(
                         top = dimensionResource(id = R.dimen.padding_xl)
                     ),
                     text = stringResource(id = R.string.cocktail_card_ingredients),
+                    color = Color.Black,
                     style = MaterialTheme.typography.titleMedium
                 )
                 CocktailCardIngredientGrid(ingredients = cocktail.ingredients.map { it.name })
@@ -124,11 +126,12 @@ fun CocktailCardIngredientGrid(ingredients: List<String>) {
                     ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                BulletItem()
+                BulletItem(Color.Black)
 
                 if (ingredients.size > INGREDIENTS_PREVIEW_SIZE && it == auxIngredients.lastIndex) {
                     Text(
                         stringResource(id = R.string.cocktail_card_more),
+                        color = Color.Black,
                         style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
                     )
                 } else {
@@ -136,6 +139,7 @@ fun CocktailCardIngredientGrid(ingredients: List<String>) {
                         ingredients[it],
                         maxLines = MAX_LINES,
                         overflow = TextOverflow.Ellipsis,
+                        color = Color.Black,
                         style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
                     )
                 }
