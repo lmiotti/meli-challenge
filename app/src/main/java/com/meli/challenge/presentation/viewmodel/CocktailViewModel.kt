@@ -32,6 +32,7 @@ class CocktailViewModel @Inject constructor(
             is HomeIntent.OnDialogDismissClicked ->
                 _state.update { it.copy(showError = false) }
             is HomeIntent.OnSearchClicked -> searchCocktail()
+            else -> Unit
         }
     }
 

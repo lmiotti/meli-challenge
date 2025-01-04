@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.meli.challenge.data.network.repository.CocktailRepository
+import com.meli.challenge.presentation.navigation.NavManager
 import com.meli.challenge.presentation.ui.theme.BootstrapTheme
-import com.meli.challenge.presentation.ui.view.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BootstrapTheme {
-                HomeScreen()
+                NavManager()
             }
         }
     }

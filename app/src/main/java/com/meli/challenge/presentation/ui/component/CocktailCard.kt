@@ -3,6 +3,7 @@ package com.meli.challenge.presentation.ui.component
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,14 +39,18 @@ import com.meli.challenge.domain.model.Cocktail
 
 @Composable
 fun CocktailCard(
-    cocktail: Cocktail
+    cocktail: Cocktail,
+    onCocktailClicked: (String) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxSize()
             .aspectRatio(0.625f)
             .padding(vertical = 5.dp)
-            .background(Color.White),
+            .background(Color.White)
+            .clickable {
+               onCocktailClicked(cocktail.id)
+            },
         border = BorderStroke(0.5.dp, Color.Black),
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
     ) {
@@ -133,15 +138,4 @@ fun CocktailCardIngredientGrid(ingredients: List<String>) {
             }
         }
     }
-}
-@Preview
-@Composable
-fun CocktailCardPreview() {
-    val cocktail = Cocktail(
-        name = "Margarita",
-        thumbnail = "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg",
-        ingredients = listOf("Triple sec", "Salt", "Lime juice", "Tequila"),
-        isAlcoholic = true
-    )
-    CocktailCard(cocktail = cocktail)
 }

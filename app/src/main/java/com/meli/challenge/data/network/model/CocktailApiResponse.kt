@@ -75,6 +75,7 @@ data class CocktailApiResponse(
             ingredient15
         )
         return Cocktail(
+            id = this.id,
             name = this.name,
             thumbnail = this.thumbnail,
             ingredients = ingredients,

@@ -39,13 +39,22 @@ import com.valentinilk.shimmer.shimmer
 
 @Composable
 fun HomeScreen(
-    viewModel: CocktailViewModel = hiltViewModel()
+    viewModel: CocktailViewModel = hiltViewModel(),
+    onCocktailClicked: (String) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     if (state.showError) {
         NotFoundDialog {
             viewModel.handleIntent(HomeIntent.OnDialogDismissClicked)
+        }
+    }
+
+    val handleIntent = { intent: HomeIntent ->
+        if (intent is HomeIntent.OnCocktailClicked) {
+            onCocktailClicked(intent.id)
+        } else {
+            viewModel.handleIntent(intent)
         }
     }
 
@@ -56,12 +65,12 @@ fun HomeScreen(
                     .padding(top = 5.dp)
                     .padding(horizontal = 10.dp),
                 value = state.cocktailName,
-                onValueChanged = { viewModel.handleIntent(HomeIntent.OnSearchTextChanged(it)) },
-                onSearchClicked = { viewModel.handleIntent(HomeIntent.OnSearchClicked) }
+                onValueChanged = { handleIntent(HomeIntent.OnSearchTextChanged(it)) },
+                onSearchClicked = { handleIntent(HomeIntent.OnSearchClicked) }
             )
         }
     ) { paddingValues ->
-        HomeScreenContent(paddingValues, state, { viewModel.handleIntent(it) })
+        HomeScreenContent(paddingValues, state, handleIntent)
     }
 
 }
@@ -98,7 +107,9 @@ fun HomeScreenContent(
                 }
             } else {
                 items(state.cocktails!!.size) {
-                    CocktailCard(cocktail = state.cocktails[it])
+                    CocktailCard(cocktail = state.cocktails[it]) {
+                        handleIntent(HomeIntent.OnCocktailClicked(it))
+                    }
                 }
             }
         }
