@@ -2,7 +2,7 @@ package com.meli.challenge.data.network.repository
 
 import com.meli.challenge.data.network.model.CocktailListApiResponse
 import com.meli.challenge.data.network.service.CocktailService
-import com.meli.challenge.models.Resource
+import com.meli.challenge.domain.model.Resource
 import com.meli.challenge.utils.NetworkUtils
 import javax.inject.Inject
 

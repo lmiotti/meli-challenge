@@ -4,7 +4,7 @@ import com.meli.challenge.data.network.repository.CocktailRepository
 import com.meli.challenge.di.DefaultDispatcher
 import com.meli.challenge.di.IoDispatcher
 import com.meli.challenge.domain.model.Cocktail
-import com.meli.challenge.models.Resource
+import com.meli.challenge.domain.model.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

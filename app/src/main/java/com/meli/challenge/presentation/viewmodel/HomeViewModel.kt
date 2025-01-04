@@ -3,7 +3,7 @@ package com.meli.challenge.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.meli.challenge.domain.usecase.GetCocktailUseCase
-import com.meli.challenge.models.Resource
+import com.meli.challenge.domain.model.Resource
 import com.meli.challenge.presentation.ui.intent.HomeIntent
 import com.meli.challenge.presentation.ui.state.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,7 +42,7 @@ class HomeViewModel @Inject constructor(
                     is Resource.Success ->
                         _state.update { it.copy(
                             isLoading = false,
-                            cocktails = result.data ?: listOf()
+                            cocktails = result.data
                         )
                     }
                     is Resource.Failure -> {

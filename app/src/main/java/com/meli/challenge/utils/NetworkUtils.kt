@@ -1,7 +1,7 @@
 package com.meli.challenge.utils
 
-import com.meli.challenge.models.NetworkError
-import com.meli.challenge.models.Resource
+import com.meli.challenge.domain.model.NetworkError
+import com.meli.challenge.domain.model.Resource
 import retrofit2.Response
 
 object NetworkUtils {

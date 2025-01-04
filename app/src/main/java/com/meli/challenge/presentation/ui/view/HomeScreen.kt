@@ -78,10 +78,10 @@ fun HomeScreenContent(
     state: HomeState,
     handleIntent: (HomeIntent) -> Unit
 ) {
-    if (state.showEmptyState) {
-        CocktailWelcomeState()
-    } else {
-        LazyVerticalGrid(
+    when {
+        state.showWelcomeState -> CocktailWelcomeState()
+        state.showEmptyState -> CocktailEmptyState()
+        else -> LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -92,7 +92,7 @@ fun HomeScreenContent(
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_m)),
         ) {
             if (state.isLoading) {
-                items(Constants.Home.LOADING_ITEMS) {
+                items(Constants.Loading.LOADING_ITEMS) {
                     LoadingCard()
                 }
             } else {
@@ -122,6 +122,39 @@ fun CocktailWelcomeState() {
         )
         Text(
             stringResource(id = R.string.home_welcome),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleLarge
+        )
+    }
+}
+
+@Composable
+fun CocktailEmptyState() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(dimensionResource(id = R.dimen.padding_l)),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            modifier = Modifier.size(dimensionResource(id = R.dimen.home_not_found_image)),
+            painter = painterResource(id = R.drawable.ic_no_drink_found),
+            contentDescription = null
+        )
+        Text(
+            stringResource(id = R.string.home_not_found),
+            modifier = Modifier.padding(
+                top = dimensionResource(id = R.dimen.padding_xl)
+            ),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleLarge
+        )
+        Text(
+            stringResource(id = R.string.home_try_again),
+            modifier = Modifier.padding(
+                top = dimensionResource(id = R.dimen.padding_s)
+            ),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge
         )

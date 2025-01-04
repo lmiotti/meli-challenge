@@ -69,10 +69,11 @@ fun CocktailCard(
             Image(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(dimensionResource(id = R.dimen.cocktail_card_ingredient_image_height)),
+                    .height(dimensionResource(id = R.dimen.cocktail_card_ingredient_image_height))
+                    .background(Color.LightGray),
                 contentScale = ContentScale.FillWidth,
                 painter = rememberAsyncImagePainter(cocktail.thumbnail),
-                contentDescription = null
+                contentDescription = null,
             )
             Column(
                 modifier = Modifier
@@ -95,19 +96,10 @@ fun CocktailCard(
                     text = stringResource(id = R.string.cocktail_card_ingredients),
                     style = MaterialTheme.typography.titleMedium
                 )
-                CocktailCardIngredientGrid(ingredients = cocktail.ingredients)
+                CocktailCardIngredientGrid(ingredients = cocktail.ingredients.map { it.name })
             }
 
-            val image = if (cocktail.isAlcoholic) {
-                R.drawable.ic_alcohol
-            } else {
-                R.drawable.ic_no_alcohol
-            }
-            Icon(
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_s)),
-                painter = painterResource(id = image),
-                contentDescription = null
-            )
+            AlcoholIcon(isAlcoholic = cocktail.isAlcoholic)
         }
     }
 }
@@ -132,14 +124,7 @@ fun CocktailCardIngredientGrid(ingredients: List<String>) {
                     ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Box(
-                    modifier = Modifier
-                        .padding(
-                            end = dimensionResource(id = R.dimen.padding_s)
-                        )
-                        .size(dimensionResource(id = R.dimen.cocktail_card_ingredient_bullet_size))
-                        .background(Color.Black, shape = CircleShape),
-                )
+                BulletItem()
 
                 if (ingredients.size > INGREDIENTS_PREVIEW_SIZE && it == auxIngredients.lastIndex) {
                     Text(

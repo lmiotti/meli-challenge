@@ -5,14 +5,11 @@ import com.meli.challenge.BaseCoroutineTest
 import com.meli.challenge.FakeValues.fakeCocktailListApiResponse
 import com.meli.challenge.FakeValues.fakeError
 import com.meli.challenge.FakeValues.fakeId
-import com.meli.challenge.data.network.model.CocktailApiResponse
 import com.meli.challenge.data.network.model.CocktailListApiResponse
 import com.meli.challenge.data.network.repository.CocktailRepository
 import com.meli.challenge.domain.model.Cocktail
-import com.meli.challenge.domain.usecase.GetCocktailUseCase
 import com.meli.challenge.domain.usecase.GetDetailsUseCase
-import com.meli.challenge.models.NetworkError
-import com.meli.challenge.models.Resource
+import com.meli.challenge.domain.model.Resource
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test

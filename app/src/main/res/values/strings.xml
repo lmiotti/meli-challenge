@@ -6,6 +6,8 @@
 
     <!-- Home -->
     <string name="home_welcome">Please enter a cocktail in the search bar to start using the application</string>
+    <string name="home_not_found">No drinks were found.</string>
+    <string name="home_try_again">Try another word.</string>
 
     <!-- Cocktail card -->
     <string name="cocktail_card_ingredients">Ingredients</string>

@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import com.meli.challenge.R
+import com.meli.challenge.presentation.Constants.CocktailCard.COCKTAIL_CARD_ASPECT_RATIO
 import com.valentinilk.shimmer.shimmer
 
 @Composable
@@ -16,7 +17,7 @@ fun LoadingCard() {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(0.625f)
+            .aspectRatio(COCKTAIL_CARD_ASPECT_RATIO)
             .padding(vertical = dimensionResource(id = R.dimen.padding_s))
             .shimmer(),
         elevation = CardDefaults.cardElevation(

@@ -11,6 +11,7 @@
 
     <!-- Home -->
     <dimen name="home_welcome_image">200dp</dimen>
+    <dimen name="home_not_found_image">150dp</dimen>
 
     <!-- Cocktail card -->
     <dimen name="cocktail_card_stroke_width">0.5dp</dimen>

@@ -2,6 +2,7 @@ package com.meli.challenge.data.network.model
 
 import com.google.gson.annotations.SerializedName
 import com.meli.challenge.domain.model.Cocktail
+import com.meli.challenge.domain.model.Ingredient
 
 data class CocktailApiResponse(
     @SerializedName("idDrink") val id: String,
@@ -57,7 +58,7 @@ data class CocktailApiResponse(
     @SerializedName("dateModified") val dateModified: String
 ) {
     fun toCocktail(): Cocktail {
-        val ingredients = listOfNotNull(
+        val ingredientNames = listOfNotNull(
             ingredient1,
             ingredient2,
             ingredient3,
@@ -74,6 +75,28 @@ data class CocktailApiResponse(
             ingredient14,
             ingredient15
         )
+
+        val measures = listOfNotNull(
+            measure1,
+            measure2,
+            measure3,
+            measure4,
+            measure5,
+            measure6,
+            measure7,
+            measure8,
+            measure9,
+            measure10,
+            measure11,
+            measure12,
+            measure13,
+            measure14,
+            measure15
+        )
+
+        val ingredients = ingredientNames.zip(measures) { names, measure ->
+            Ingredient(names, measure)
+        }
         return Cocktail(
             id = this.id,
             name = this.name,

@@ -8,6 +8,15 @@ data class HomeState(
     val cocktails: List<Cocktail>? = null,
     val showError: Boolean = false,
 ) {
-    val showEmptyState: Boolean
+    val showWelcomeState: Boolean
         get() = !isLoading && cocktails == null
+
+    val showEmptyState: Boolean
+        get() {
+            return if (cocktails != null) {
+                !isLoading && cocktails.isEmpty()
+            } else {
+                false
+            }
+        }
 }

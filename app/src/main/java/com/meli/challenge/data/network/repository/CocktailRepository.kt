@@ -1,7 +1,7 @@
 package com.meli.challenge.data.network.repository
 
 import com.meli.challenge.data.network.model.CocktailListApiResponse
-import com.meli.challenge.models.Resource
+import com.meli.challenge.domain.model.Resource
 
 interface CocktailRepository {
 

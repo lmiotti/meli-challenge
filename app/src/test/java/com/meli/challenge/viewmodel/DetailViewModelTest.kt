@@ -2,20 +2,15 @@ package com.meli.challenge.viewmodel
 
 import app.cash.turbine.test
 import com.meli.challenge.BaseCoroutineTest
-import com.meli.challenge.FakeValues
 import com.meli.challenge.FakeValues.fakeCocktail
 import com.meli.challenge.FakeValues.fakeError
 import com.meli.challenge.FakeValues.fakeId
 import com.meli.challenge.domain.model.Cocktail
 import com.meli.challenge.domain.usecase.GetDetailsUseCase
-import com.meli.challenge.models.NetworkError
-import com.meli.challenge.models.Resource
+import com.meli.challenge.domain.model.Resource
 import com.meli.challenge.presentation.ui.intent.DetailIntent
-import com.meli.challenge.presentation.ui.intent.HomeIntent
 import com.meli.challenge.presentation.ui.state.DetailState
-import com.meli.challenge.presentation.ui.state.HomeState
 import com.meli.challenge.presentation.viewmodel.DetailViewModel
-import com.meli.challenge.presentation.viewmodel.HomeViewModel
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert

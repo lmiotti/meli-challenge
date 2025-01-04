@@ -3,7 +3,7 @@ package com.meli.challenge
 import com.meli.challenge.data.network.model.CocktailApiResponse
 import com.meli.challenge.data.network.model.CocktailListApiResponse
 import com.meli.challenge.domain.model.Cocktail
-import com.meli.challenge.models.NetworkError
+import com.meli.challenge.domain.model.NetworkError
 
 object FakeValues {
 

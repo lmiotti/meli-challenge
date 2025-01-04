@@ -2,14 +2,12 @@ package com.meli.challenge.viewmodel
 
 import app.cash.turbine.test
 import com.meli.challenge.BaseCoroutineTest
-import com.meli.challenge.FakeValues.fakeCocktail
 import com.meli.challenge.FakeValues.fakeCocktailList
 import com.meli.challenge.FakeValues.fakeError
 import com.meli.challenge.FakeValues.fakeName
 import com.meli.challenge.domain.model.Cocktail
 import com.meli.challenge.domain.usecase.GetCocktailUseCase
-import com.meli.challenge.models.NetworkError
-import com.meli.challenge.models.Resource
+import com.meli.challenge.domain.model.Resource
 import com.meli.challenge.presentation.ui.intent.HomeIntent
 import com.meli.challenge.presentation.ui.state.HomeState
 import com.meli.challenge.presentation.viewmodel.HomeViewModel

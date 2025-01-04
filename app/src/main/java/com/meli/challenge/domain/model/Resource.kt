@@ -1,4 +1,4 @@
-package com.meli.challenge.models
+package com.meli.challenge.domain.model
 
 sealed class Resource<T>(
     val data: T? = null,
