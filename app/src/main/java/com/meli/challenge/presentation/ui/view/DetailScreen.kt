@@ -149,11 +149,15 @@ fun DetailScreenContent(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 BulletItem(MaterialTheme.colorScheme.primary)
-                Text(
-                    cocktail.ingredients[it].measure,
-                    modifier = Modifier.padding(end = dimensionResource(id = R.dimen.padding_s)),
-                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
-                )
+
+                cocktail.ingredients[it].measure?.let {
+                    Text(
+                        it,
+                        modifier = Modifier.padding(end = dimensionResource(id = R.dimen.padding_s)),
+                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
+                    )
+                }
+
                 Text(
                     cocktail.ingredients[it].name,
                     style = MaterialTheme.typography.bodyLarge

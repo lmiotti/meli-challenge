@@ -76,7 +76,7 @@ data class CocktailApiResponse(
             ingredient15
         )
 
-        val measures = listOfNotNull(
+        val measures = listOf(
             measure1,
             measure2,
             measure3,

@@ -63,7 +63,8 @@ fun HomeScreen(
                     .padding(horizontal = dimensionResource(id = R.dimen.padding_m)),
                 value = state.cocktailName,
                 onValueChanged = { handleIntent(HomeIntent.OnSearchTextChanged(it)) },
-                onSearchClicked = { handleIntent(HomeIntent.OnSearchClicked) }
+                onSearchClicked = { handleIntent(HomeIntent.OnSearchClicked) },
+                onClearClicked = { handleIntent(HomeIntent.OnClearClicked) }
             )
         }
     ) { paddingValues ->

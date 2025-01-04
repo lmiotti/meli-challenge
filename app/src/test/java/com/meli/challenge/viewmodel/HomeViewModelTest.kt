@@ -37,7 +37,6 @@ class HomeViewModelTest: BaseCoroutineTest() {
     fun whenSearchTextChanged_thenCocktailNameIsUpdated() = runTest {
         // When
         viewModel.handleIntent(HomeIntent.OnSearchTextChanged(fakeName))
-        dispatcher.scheduler.advanceUntilIdle()
 
         // Then
         viewModel.state.test {
@@ -45,6 +44,27 @@ class HomeViewModelTest: BaseCoroutineTest() {
             cancelAndIgnoreRemainingEvents()
         }
     }
+
+    @Test
+    fun whenOnClearClicked_thenCocktailNameIsEmpty() = runTest {
+        // When
+        viewModel.handleIntent(HomeIntent.OnSearchTextChanged(fakeName))
+
+        // Then
+        viewModel.state.test {
+            Assert.assertEquals(HomeState().copy(cocktailName = fakeName), awaitItem())
+        }
+
+        // When
+        viewModel.handleIntent(HomeIntent.OnClearClicked)
+
+        // Then
+        viewModel.state.test {
+            Assert.assertEquals(HomeState().copy(cocktailName = ""), awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
     @Test
     fun whenOnSearchClicked_thenStateIsLoading() = runTest {
         // Given

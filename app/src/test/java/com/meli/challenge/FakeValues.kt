@@ -3,6 +3,7 @@ package com.meli.challenge
 import com.meli.challenge.data.network.model.CocktailApiResponse
 import com.meli.challenge.data.network.model.CocktailListApiResponse
 import com.meli.challenge.domain.model.Cocktail
+import com.meli.challenge.domain.model.Ingredient
 import com.meli.challenge.domain.model.NetworkError
 
 object FakeValues {
@@ -10,11 +11,17 @@ object FakeValues {
     const val fakeId: String = "11007"
     const val fakeName: String = "Margarita"
     val fakeFirstLetter: String = fakeName.first().toString()
+    val fakeIngredients = listOf(
+        Ingredient("Tequila", "1 1/2 oz "),
+        Ingredient("Triple sec", "1/2 oz "),
+        Ingredient("Lime juice", "1 oz "),
+        Ingredient("Salt")
+    )
     val fakeCocktail = Cocktail(
         id = fakeId,
         name = fakeName,
         thumbnail = "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg",
-        ingredients = listOf("Tequila", "Triple sec", "Lime juice", "Salt"),
+        ingredients = fakeIngredients,
         isAlcoholic = true
     )
     val fakeCocktailList = listOf(fakeCocktail, fakeCocktail)

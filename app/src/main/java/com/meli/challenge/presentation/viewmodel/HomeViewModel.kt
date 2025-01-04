@@ -25,9 +25,12 @@ class HomeViewModel @Inject constructor(
 
     fun handleIntent(intent: HomeIntent) {
         when(intent) {
-            is HomeIntent.OnSearchTextChanged -> _state.update { it.copy(cocktailName = intent.name) }
+            is HomeIntent.OnSearchTextChanged ->
+                _state.update { it.copy(cocktailName = intent.name) }
             is HomeIntent.OnDialogDismissClicked ->
                 _state.update { it.copy(showError = false) }
+            is HomeIntent.OnClearClicked ->
+                _state.update { it.copy(cocktailName = "") }
             is HomeIntent.OnSearchClicked -> searchCocktail()
             else -> Unit
         }
