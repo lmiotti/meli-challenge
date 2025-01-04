@@ -2,6 +2,10 @@ package com.meli.challenge.viewmodel
 
 import app.cash.turbine.test
 import com.meli.challenge.BaseCoroutineTest
+import com.meli.challenge.FakeValues
+import com.meli.challenge.FakeValues.fakeCocktail
+import com.meli.challenge.FakeValues.fakeError
+import com.meli.challenge.FakeValues.fakeId
 import com.meli.challenge.domain.model.Cocktail
 import com.meli.challenge.domain.usecase.GetDetailsUseCase
 import com.meli.challenge.models.NetworkError
@@ -32,11 +36,10 @@ class DetailViewModelTest: BaseCoroutineTest() {
     @Test
     fun whenViewModelInits_thenIsLoadingIsTrue() = runTest {
         // Given
-        val id = "11007"
-        Mockito.doReturn(flowOf(Resource.Loading<Unit>())).`when`(useCase).invoke(id)
+        Mockito.doReturn(flowOf(Resource.Loading<Unit>())).`when`(useCase).invoke(fakeId)
 
         // When
-        viewModel = DetailViewModel(id, useCase)
+        viewModel = DetailViewModel(fakeId, useCase)
 
         // Then
         viewModel.state.test {
@@ -48,21 +51,14 @@ class DetailViewModelTest: BaseCoroutineTest() {
     @Test
     fun whenViewModelInitsAndResourceIsSuccess_thenCocktailIsShown() = runTest {
         // Given
-        val cocktail = Cocktail(
-            id = "11007",
-            name = "Margarita",
-            thumbnail = "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg",
-            ingredients = listOf("Tequila", "Triple sec", "Lime juice", "Salt"),
-            isAlcoholic = true
-        )
-        Mockito.doReturn(flowOf(Resource.Success(cocktail))).`when`(useCase).invoke(cocktail.id)
+        Mockito.doReturn(flowOf(Resource.Success(fakeCocktail))).`when`(useCase).invoke(fakeId)
 
         // When
-        viewModel = DetailViewModel(cocktail.id, useCase)
+        viewModel = DetailViewModel(fakeId, useCase)
 
         // Then
         viewModel.state.test {
-            Assert.assertEquals(DetailState().copy(isLoading = false, cocktail = cocktail), awaitItem())
+            Assert.assertEquals(DetailState().copy(isLoading = false, cocktail = fakeCocktail), awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -70,12 +66,10 @@ class DetailViewModelTest: BaseCoroutineTest() {
     @Test
     fun whenViewModelInitsAndResourceIsFailure_thenShowErrorIsTrue() = runTest {
         // Given
-        val id = "11007"
-        val networkError = NetworkError(code = 400, message = "Not Found")
-        Mockito.doReturn(flowOf(Resource.Failure<Cocktail>(networkError))).`when`(useCase).invoke(id)
+        Mockito.doReturn(flowOf(Resource.Failure<Cocktail>(fakeError))).`when`(useCase).invoke(fakeId)
 
         // When
-        viewModel = DetailViewModel(id, useCase)
+        viewModel = DetailViewModel(fakeId, useCase)
 
         // Then
         viewModel.state.test {
@@ -87,12 +81,10 @@ class DetailViewModelTest: BaseCoroutineTest() {
     @Test
     fun whenOnDialogDismissClicked_thenShowErrorIsFalse() = runTest {
         // Given
-        val id = "11007"
-        val networkError = NetworkError(code = 400, message = "Not Found")
-        Mockito.doReturn(flowOf(Resource.Failure<Cocktail>(networkError))).`when`(useCase).invoke(id)
+        Mockito.doReturn(flowOf(Resource.Failure<Cocktail>(fakeError))).`when`(useCase).invoke(fakeId)
 
         // When
-        viewModel = DetailViewModel(id, useCase)
+        viewModel = DetailViewModel(fakeId, useCase)
 
         // Then
         viewModel.state.test {

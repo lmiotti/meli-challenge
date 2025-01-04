@@ -2,6 +2,10 @@ package com.meli.challenge.viewmodel
 
 import app.cash.turbine.test
 import com.meli.challenge.BaseCoroutineTest
+import com.meli.challenge.FakeValues.fakeCocktail
+import com.meli.challenge.FakeValues.fakeCocktailList
+import com.meli.challenge.FakeValues.fakeError
+import com.meli.challenge.FakeValues.fakeName
 import com.meli.challenge.domain.model.Cocktail
 import com.meli.challenge.domain.usecase.GetCocktailUseCase
 import com.meli.challenge.models.NetworkError
@@ -33,32 +37,28 @@ class HomeViewModelTest: BaseCoroutineTest() {
 
     @Test
     fun whenSearchTextChanged_thenCocktailNameIsUpdated() = runTest {
-        // Given
-        val cocktail = "Margarita"
-
         // When
-        viewModel.handleIntent(HomeIntent.OnSearchTextChanged(cocktail))
+        viewModel.handleIntent(HomeIntent.OnSearchTextChanged(fakeName))
         dispatcher.scheduler.advanceUntilIdle()
 
         // Then
         viewModel.state.test {
-            Assert.assertEquals(HomeState().copy(cocktailName = cocktail), awaitItem())
+            Assert.assertEquals(HomeState().copy(cocktailName = fakeName), awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }
     @Test
     fun whenOnSearchClicked_thenStateIsLoading() = runTest {
         // Given
-        val cocktail = "Margarita"
-        Mockito.doReturn(flowOf(Resource.Loading<Unit>())).`when`(useCase).invoke(cocktail)
+        Mockito.doReturn(flowOf(Resource.Loading<Unit>())).`when`(useCase).invoke(fakeName)
 
         // When
-        viewModel.handleIntent(HomeIntent.OnSearchTextChanged(cocktail))
+        viewModel.handleIntent(HomeIntent.OnSearchTextChanged(fakeName))
         viewModel.handleIntent(HomeIntent.OnSearchClicked)
 
         // Then
         viewModel.state.test {
-            Assert.assertEquals(HomeState().copy(cocktailName = cocktail, isLoading = true), awaitItem())
+            Assert.assertEquals(HomeState().copy(cocktailName = fakeName, isLoading = true), awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -66,32 +66,15 @@ class HomeViewModelTest: BaseCoroutineTest() {
     @Test
     fun whenOnSearchClickedAndResourceIsSuccess_thenShowCocktailList() = runTest {
         // Given
-        val cocktailName = "Margarita"
-        val cocktailList = listOf(
-            Cocktail(
-                id = "11007",
-                name = "Margarita",
-                thumbnail = "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg",
-                ingredients = listOf("Tequila", "Triple sec", "Lime juice", "Salt"),
-                isAlcoholic = true
-            ),
-            Cocktail(
-                id = "11118",
-                name = "Blue Margarita",
-                thumbnail = "https://www.thecocktaildb.com/images/media/drink/bry4qh1582751040.jpg",
-                ingredients = listOf("Tequila", "Blue Curacao", "Lime juice", "Salt"),
-                isAlcoholic = true
-            )
-        )
-        Mockito.doReturn(flowOf(Resource.Success(cocktailList))).`when`(useCase).invoke(cocktailName)
+        Mockito.doReturn(flowOf(Resource.Success(fakeCocktailList))).`when`(useCase).invoke(fakeName)
 
         // When
-        viewModel.handleIntent(HomeIntent.OnSearchTextChanged(cocktailName))
+        viewModel.handleIntent(HomeIntent.OnSearchTextChanged(fakeName))
         viewModel.handleIntent(HomeIntent.OnSearchClicked)
 
         // Then
         viewModel.state.test {
-            Assert.assertEquals(HomeState().copy(cocktailName = cocktailName, cocktails = cocktailList), awaitItem())
+            Assert.assertEquals(HomeState().copy(cocktailName = fakeName, cocktails = fakeCocktailList), awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -99,17 +82,15 @@ class HomeViewModelTest: BaseCoroutineTest() {
     @Test
     fun whenOnSearchClickedAndResourceIsFailure_thenShowErrorIsTrue() = runTest {
         // Given
-        val cocktailName = "Margarita"
-        val networkError = NetworkError(code = 400, message = "Not Found")
-        Mockito.doReturn(flowOf(Resource.Failure<List<Cocktail>>(networkError))).`when`(useCase).invoke(cocktailName)
+        Mockito.doReturn(flowOf(Resource.Failure<List<Cocktail>>(fakeError))).`when`(useCase).invoke(fakeName)
 
         // When
-        viewModel.handleIntent(HomeIntent.OnSearchTextChanged(cocktailName))
+        viewModel.handleIntent(HomeIntent.OnSearchTextChanged(fakeName))
         viewModel.handleIntent(HomeIntent.OnSearchClicked)
 
         // Then
         viewModel.state.test {
-            Assert.assertEquals(HomeState().copy(cocktailName = cocktailName, showError = true), awaitItem())
+            Assert.assertEquals(HomeState().copy(cocktailName = fakeName, showError = true), awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -117,19 +98,17 @@ class HomeViewModelTest: BaseCoroutineTest() {
     @Test
     fun whenOnDialogDismissClicked_thenShowErrorIsFalse() = runTest {
         // Given
-        val cocktailName = "Margarita"
-        val networkError = NetworkError(code = 400, message = "Not Found")
-        Mockito.doReturn(flowOf(Resource.Failure<List<Cocktail>>(networkError))).`when`(useCase).invoke(cocktailName)
+        Mockito.doReturn(flowOf(Resource.Failure<List<Cocktail>>(fakeError))).`when`(useCase).invoke(fakeName)
 
         // When
-        viewModel.handleIntent(HomeIntent.OnSearchTextChanged(cocktailName))
+        viewModel.handleIntent(HomeIntent.OnSearchTextChanged(fakeName))
         viewModel.handleIntent(HomeIntent.OnSearchClicked)
 
         // Then
         viewModel.state.test {
-            Assert.assertEquals(HomeState().copy(cocktailName = cocktailName, showError = true), awaitItem())
+            Assert.assertEquals(HomeState().copy(cocktailName = fakeName, showError = true), awaitItem())
             viewModel.handleIntent(HomeIntent.OnDialogDismissClicked)
-            Assert.assertEquals(HomeState().copy(cocktailName = cocktailName, showError = false), awaitItem())
+            Assert.assertEquals(HomeState().copy(cocktailName = fakeName, showError = false), awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }
