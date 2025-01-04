@@ -17,7 +17,7 @@ class CocktailRepositoryImpl @Inject constructor(
         return NetworkUtils.safeApiCall { service.getCocktailByFirstLetter(firstLetter) }
     }
 
-    override suspend fun getCocktailDetail(id: Long): Resource<CocktailListApiResponse> {
+    override suspend fun getCocktailDetail(id: String): Resource<CocktailListApiResponse> {
         return NetworkUtils.safeApiCall { service.getCocktailDetails(id) }
     }
 }

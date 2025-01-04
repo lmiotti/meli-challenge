@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,30 +27,31 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.meli.challenge.R
 import com.meli.challenge.presentation.Constants
 import com.meli.challenge.presentation.ui.component.CocktailCard
+import com.meli.challenge.presentation.ui.component.ErrorDialog
 import com.meli.challenge.presentation.ui.component.LoadingCard
 import com.meli.challenge.presentation.ui.component.SearchTextField
 import com.meli.challenge.presentation.ui.intent.HomeIntent
 import com.meli.challenge.presentation.ui.state.HomeState
-import com.meli.challenge.presentation.viewmodel.CocktailViewModel
+import com.meli.challenge.presentation.viewmodel.HomeViewModel
 
 @Composable
 fun HomeScreen(
-    viewModel: CocktailViewModel = hiltViewModel(),
-    onCocktailClicked: (String) -> Unit
+    viewModel: HomeViewModel = hiltViewModel(),
+    onCocktailClicked: (String, String) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    if (state.showError) {
-        NotFoundDialog {
-            viewModel.handleIntent(HomeIntent.OnDialogDismissClicked)
+    val handleIntent = { intent: HomeIntent ->
+        if (intent is HomeIntent.OnCocktailClicked) {
+            onCocktailClicked(intent.id, intent.name)
+        } else {
+            viewModel.handleIntent(intent)
         }
     }
 
-    val handleIntent = { intent: HomeIntent ->
-        if (intent is HomeIntent.OnCocktailClicked) {
-            onCocktailClicked(intent.id)
-        } else {
-            viewModel.handleIntent(intent)
+    if (state.showError) {
+        ErrorDialog {
+            handleIntent(HomeIntent.OnDialogDismissClicked)
         }
     }
 
@@ -98,8 +97,8 @@ fun HomeScreenContent(
                 }
             } else {
                 items(state.cocktails!!.size) {
-                    CocktailCard(cocktail = state.cocktails[it]) {
-                        handleIntent(HomeIntent.OnCocktailClicked(it))
+                    CocktailCard(cocktail = state.cocktails[it]) { id, name ->
+                        handleIntent(HomeIntent.OnCocktailClicked(id, name))
                     }
                 }
             }
@@ -127,23 +126,4 @@ fun CocktailWelcomeState() {
             style = MaterialTheme.typography.titleLarge
         )
     }
-}
-
-@Composable
-fun NotFoundDialog(onDismissClicked: () -> Unit) {
-    AlertDialog(
-        onDismissRequest = onDismissClicked,
-        title = { Text(text = stringResource(id = R.string.error)) },
-        text = { Text(text = stringResource(id = R.string.try_again)) },
-        confirmButton = {
-            Button(
-                onClick = onDismissClicked
-            ) {
-                Text(
-                    text = stringResource(id = R.string.ok),
-                    color = Color.White
-                )
-            }
-        }
-    )
 }

@@ -19,6 +19,6 @@ interface CocktailService {
 
     @GET("/api/json/v1/1/lookup.php")
     suspend fun getCocktailDetails(
-        @Query("i") id: Long
+        @Query("i") id: String
     ): Response<CocktailListApiResponse>
 }

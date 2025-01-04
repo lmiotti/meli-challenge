@@ -42,7 +42,7 @@ import com.meli.challenge.presentation.Constants.Ingredients.MAX_LINES
 @Composable
 fun CocktailCard(
     cocktail: Cocktail,
-    onCocktailClicked: (String) -> Unit
+    onCocktailClicked: (String, String) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -53,7 +53,7 @@ fun CocktailCard(
             )
             .background(Color.White)
             .clickable {
-                onCocktailClicked(cocktail.id)
+                onCocktailClicked(cocktail.id, cocktail.name)
             },
         border = BorderStroke(
             dimensionResource(id = R.dimen.cocktail_card_stroke_width),

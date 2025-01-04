@@ -2,15 +2,12 @@ package com.meli.challenge.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.meli.challenge.domain.model.Cocktail
 import com.meli.challenge.domain.usecase.GetCocktailUseCase
 import com.meli.challenge.models.Resource
 import com.meli.challenge.presentation.ui.intent.HomeIntent
 import com.meli.challenge.presentation.ui.state.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
@@ -18,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CocktailViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val useCase: GetCocktailUseCase
 ): ViewModel() {
 

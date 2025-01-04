@@ -15,8 +15,8 @@ fun NavManager() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Routes.Home) {
         composable<Routes.Home> {
-            HomeScreen {
-                navController.navigate(Routes.Detail(it))
+            HomeScreen { id, name ->
+                navController.navigate(Routes.Detail(id, name))
             }
         }
         composable<Routes.Detail> {
@@ -26,7 +26,11 @@ fun NavManager() {
                     creationCallback = { factory: DetailViewModel.Factory ->
                         factory.create(detail.id)
                     }
-                )
+                ),
+                name = detail.name,
+                onBackPressed = {
+                    navController.popBackStack()
+                }
             )
         }
     }

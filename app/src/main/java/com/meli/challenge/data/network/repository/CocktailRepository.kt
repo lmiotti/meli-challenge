@@ -7,5 +7,5 @@ interface CocktailRepository {
 
     suspend fun getCocktailByName(name: String): Resource<CocktailListApiResponse>
     suspend fun getCocktailByFirstLetter(firstLetter: String): Resource<CocktailListApiResponse>
-    suspend fun getCocktailDetail(id: Long): Resource<CocktailListApiResponse>
+    suspend fun getCocktailDetail(id: String): Resource<CocktailListApiResponse>
 }
