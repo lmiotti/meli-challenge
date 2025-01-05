@@ -11,6 +11,6 @@
 
     <!-- Cocktail card -->
     <string name="cocktail_card_ingredients">Ingredients</string>
-    <string name="cocktail_card_more">More...</string>
+    <string name="cocktail_card_more">More&#8230;</string>
 
 </resources>
