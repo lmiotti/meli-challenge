@@ -21,3 +21,8 @@ Shimmer effect was implemented using an external library ([Shimmer for Jetpack C
 - **Domain**: The only purpose of this layer is to map network models to `View` ones.
 - **Data**: This layer will include a `Repository` where the communication to the API is stablished. 
 `RemoteDataSources` were not implemented due to the fact that they will create boilerplate to this project.
+
+### 🎬 Recording
+
+https://github.com/user-attachments/assets/ea97f795-380d-4b41-a4ff-90ab3f20fe37
+
