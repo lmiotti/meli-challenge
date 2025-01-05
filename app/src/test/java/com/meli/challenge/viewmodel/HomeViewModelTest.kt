@@ -2,6 +2,7 @@ package com.meli.challenge.viewmodel
 
 import app.cash.turbine.test
 import com.meli.challenge.BaseCoroutineTest
+import com.meli.challenge.FakeValues.fakeCocktail
 import com.meli.challenge.FakeValues.fakeCocktailList
 import com.meli.challenge.FakeValues.fakeError
 import com.meli.challenge.FakeValues.fakeName
@@ -11,7 +12,9 @@ import com.meli.challenge.domain.model.Resource
 import com.meli.challenge.presentation.ui.intent.HomeIntent
 import com.meli.challenge.presentation.ui.state.HomeState
 import com.meli.challenge.presentation.viewmodel.HomeViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
@@ -127,6 +130,18 @@ class HomeViewModelTest: BaseCoroutineTest() {
             Assert.assertEquals(HomeState().copy(cocktailName = fakeName, showError = true), awaitItem())
             viewModel.handleIntent(HomeIntent.OnDialogDismissClicked)
             Assert.assertEquals(HomeState().copy(cocktailName = fakeName, showError = false), awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun whenOnCocktailClicked_thenNavigate() = runTest {
+        viewModel.navigate.test {
+            // When
+            viewModel.handleIntent(HomeIntent.OnCocktailClicked(fakeCocktail))
+
+            // Then
+            Assert.assertEquals(fakeCocktail, awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }

@@ -1,5 +1,6 @@
 package com.meli.challenge.presentation.ui.view
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +36,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.meli.challenge.R
 import com.meli.challenge.domain.model.Cocktail
@@ -46,6 +51,7 @@ import com.meli.challenge.presentation.ui.component.ErrorDialog
 import com.meli.challenge.presentation.ui.intent.DetailIntent
 import com.meli.challenge.presentation.viewmodel.DetailViewModel
 import com.valentinilk.shimmer.shimmer
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,16 +62,18 @@ fun DetailScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    val handleIntent = { intent: DetailIntent ->
-        if (intent is DetailIntent.OnBackPressed) {
-            onBackPressed()
-        } else {
-            viewModel.handleIntent(intent)
+    val lifecycle = LocalLifecycleOwner.current
+    LaunchedEffect(Unit) {
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.navigate.collectLatest {
+                onBackPressed()
+            }
         }
     }
+
     if (state.showError) {
         ErrorDialog {
-            handleIntent(DetailIntent.OnDialogDismissClicked)
+            viewModel.handleIntent(DetailIntent.OnDialogDismissClicked)
         }
     }
 
@@ -75,7 +83,7 @@ fun DetailScreen(
                 title = { Text(name) },
                 navigationIcon = {
                     IconButton(onClick = {
-                        handleIntent(DetailIntent.OnBackPressed)
+                        viewModel.handleIntent(DetailIntent.OnBackPressed)
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,

@@ -2,12 +2,16 @@ package com.meli.challenge.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.meli.challenge.domain.model.Cocktail
 import com.meli.challenge.domain.usecase.GetCocktailUseCase
 import com.meli.challenge.domain.model.Resource
+import com.meli.challenge.presentation.navigation.Routes
 import com.meli.challenge.presentation.ui.intent.HomeIntent
 import com.meli.challenge.presentation.ui.state.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
@@ -23,6 +27,11 @@ class HomeViewModel @Inject constructor(
     val state: StateFlow<HomeState>
         get() = _state
 
+
+    private var _navigate = MutableSharedFlow<Cocktail>()
+    val navigate: SharedFlow<Cocktail>
+        get() = _navigate
+
     fun handleIntent(intent: HomeIntent) {
         when(intent) {
             is HomeIntent.OnSearchTextChanged ->
@@ -32,7 +41,8 @@ class HomeViewModel @Inject constructor(
             is HomeIntent.OnClearClicked ->
                 _state.update { it.copy(cocktailName = "") }
             is HomeIntent.OnSearchClicked -> searchCocktail()
-            else -> Unit
+            is HomeIntent.OnCocktailClicked ->
+                viewModelScope.launch { _navigate.emit(intent.cocktail) }
         }
     }
 

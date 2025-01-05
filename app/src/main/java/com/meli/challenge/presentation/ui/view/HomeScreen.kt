@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +24,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.meli.challenge.R
 import com.meli.challenge.presentation.Constants
 import com.meli.challenge.presentation.ui.component.CocktailCard
@@ -33,6 +37,7 @@ import com.meli.challenge.presentation.ui.component.SearchTextField
 import com.meli.challenge.presentation.ui.intent.HomeIntent
 import com.meli.challenge.presentation.ui.state.HomeState
 import com.meli.challenge.presentation.viewmodel.HomeViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun HomeScreen(
@@ -41,17 +46,18 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    val handleIntent = { intent: HomeIntent ->
-        if (intent is HomeIntent.OnCocktailClicked) {
-            onCocktailClicked(intent.id, intent.name)
-        } else {
-            viewModel.handleIntent(intent)
+    val lifecycle = LocalLifecycleOwner.current
+    LaunchedEffect(Unit) {
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.navigate.collectLatest {
+                onCocktailClicked(it.id, it.name)
+            }
         }
     }
 
     if (state.showError) {
         ErrorDialog {
-            handleIntent(HomeIntent.OnDialogDismissClicked)
+            viewModel.handleIntent(HomeIntent.OnDialogDismissClicked)
         }
     }
 
@@ -62,13 +68,13 @@ fun HomeScreen(
                     .padding(top = dimensionResource(id = R.dimen.padding_s))
                     .padding(horizontal = dimensionResource(id = R.dimen.padding_m)),
                 value = state.cocktailName,
-                onValueChanged = { handleIntent(HomeIntent.OnSearchTextChanged(it)) },
-                onSearchClicked = { handleIntent(HomeIntent.OnSearchClicked) },
-                onClearClicked = { handleIntent(HomeIntent.OnClearClicked) }
+                onValueChanged = { viewModel.handleIntent(HomeIntent.OnSearchTextChanged(it)) },
+                onSearchClicked = { viewModel.handleIntent(HomeIntent.OnSearchClicked) },
+                onClearClicked = { viewModel.handleIntent(HomeIntent.OnClearClicked) }
             )
         }
     ) { paddingValues ->
-        HomeScreenContent(paddingValues, state, handleIntent)
+        HomeScreenContent(paddingValues, state) { viewModel.handleIntent(it) }
     }
 
 }
@@ -98,8 +104,8 @@ fun HomeScreenContent(
                 }
             } else {
                 items(state.cocktails!!.size) {
-                    CocktailCard(cocktail = state.cocktails[it]) { id, name ->
-                        handleIntent(HomeIntent.OnCocktailClicked(id, name))
+                    CocktailCard(cocktail = state.cocktails[it]) { cocktail ->
+                        handleIntent(HomeIntent.OnCocktailClicked(cocktail))
                     }
                 }
             }

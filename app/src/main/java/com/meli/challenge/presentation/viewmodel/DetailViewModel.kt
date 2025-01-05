@@ -1,5 +1,6 @@
 package com.meli.challenge.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.meli.challenge.domain.usecase.GetDetailsUseCase
@@ -10,7 +11,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
@@ -26,6 +29,10 @@ class DetailViewModel @AssistedInject constructor(
     interface Factory {
         fun create(id: String): DetailViewModel
     }
+
+    private var _navigate = MutableSharedFlow<Unit>()
+    val navigate: SharedFlow<Unit>
+        get() = _navigate
 
     private val _state = MutableStateFlow(DetailState())
     val state: StateFlow<DetailState>
@@ -47,8 +54,12 @@ class DetailViewModel @AssistedInject constructor(
     }
 
     fun handleIntent(intent: DetailIntent) {
-        if (intent is DetailIntent.OnDialogDismissClicked) {
-            _state.update { it.copy(showError = false) }
+        when (intent) {
+            is DetailIntent.OnDialogDismissClicked ->
+                _state.update { it.copy(showError = false) }
+            is DetailIntent.OnBackPressed -> {
+                viewModelScope.launch { _navigate.emit(Unit) }
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ import com.meli.challenge.domain.model.Cocktail
 import com.meli.challenge.domain.usecase.GetDetailsUseCase
 import com.meli.challenge.domain.model.Resource
 import com.meli.challenge.presentation.ui.intent.DetailIntent
+import com.meli.challenge.presentation.ui.intent.HomeIntent
 import com.meli.challenge.presentation.ui.state.DetailState
 import com.meli.challenge.presentation.viewmodel.DetailViewModel
 import kotlinx.coroutines.flow.flowOf
@@ -86,6 +87,23 @@ class DetailViewModelTest: BaseCoroutineTest() {
             Assert.assertEquals(DetailState().copy(isLoading = false, showError = true), awaitItem())
             viewModel.handleIntent(DetailIntent.OnDialogDismissClicked)
             Assert.assertEquals(DetailState().copy(isLoading = false, showError = false), awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun whenOnBackPressed_thenNavigate() = runTest {
+        // Given
+        Mockito.doReturn(flowOf(Resource.Success(fakeCocktail))).`when`(useCase).invoke(fakeId)
+
+        // When
+        viewModel = DetailViewModel(fakeId, useCase)
+
+        viewModel.navigate.test {
+            viewModel.handleIntent(DetailIntent.OnBackPressed)
+
+            // Then
+            Assert.assertEquals(Unit, awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
     }
