@@ -12,6 +12,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 
 @Composable
@@ -22,6 +23,8 @@ fun SearchTextField(
     onSearchClicked: () -> Unit,
     onClearClicked: () -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     OutlinedTextField(
         modifier = modifier.fillMaxWidth(),
         value = value,
@@ -36,7 +39,12 @@ fun SearchTextField(
             imeAction = ImeAction.Search
         ),
         keyboardActions = KeyboardActions(
-            onSearch = { if (value.isNotEmpty()) onSearchClicked() }
+            onSearch = {
+                if (value.isNotEmpty()) {
+                    onSearchClicked()
+                    keyboardController?.hide()
+                }
+            }
         )
     )
 }

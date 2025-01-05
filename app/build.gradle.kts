@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -22,7 +24,12 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String", "BASE_URL", "\"https://www.thecocktaildb.com/\"")
+        val localProperties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        localProperties.load(localPropertiesFile.inputStream())
+        val apiKey = localProperties.getProperty("API_KEY", "")
+        val url = "https://www.thecocktaildb.com/api/json/v1/$apiKey/"
+        buildConfigField("String", "BASE_URL", "\"$url\"")
     }
 
     buildTypes {
@@ -70,17 +77,9 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    // Room DB
-    implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
-
     //Navigation
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
-
-    // DataStore
-    implementation(libs.androidx.datastore.preferences)
-    implementation(libs.androidx.lifecycle.runtime.compose)
 
     // Serialization
     implementation(libs.kotlinx.serialization.json)
