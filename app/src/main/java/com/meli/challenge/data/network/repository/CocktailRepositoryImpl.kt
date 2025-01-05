@@ -9,6 +9,7 @@ import javax.inject.Inject
 class CocktailRepositoryImpl @Inject constructor(
     private val service: CocktailService
 ): CocktailRepository {
+
     override suspend fun getCocktailByName(name: String): Resource<CocktailListApiResponse> {
         return NetworkUtils.safeApiCall { service.getCocktailByName(name) }
     }

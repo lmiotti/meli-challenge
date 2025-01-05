@@ -17,6 +17,7 @@ class GetCocktailUseCase @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) {
+
     suspend operator fun invoke(name: String): Flow<Resource<List<Cocktail>>> = flow {
         emit(Resource.Loading())
         if (name.length == 1) {

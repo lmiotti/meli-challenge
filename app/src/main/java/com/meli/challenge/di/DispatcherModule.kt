@@ -20,6 +20,7 @@ annotation class MainDispatcher
 @Module
 @InstallIn(SingletonComponent::class)
 object DispatcherModule {
+
     @DefaultDispatcher
     @Provides
     fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
