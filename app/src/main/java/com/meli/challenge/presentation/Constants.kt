@@ -4,14 +4,11 @@ object Constants {
 
     object Loading {
         const val LOADING_ITEMS = 10
+        const val ASPECT_RATIO = 0.625f
     }
 
     object Home {
         const val GRID_CELLS = 2
-    }
-
-    object CocktailCard {
-        const val COCKTAIL_CARD_ASPECT_RATIO = 0.625f
     }
 
     object Ingredients {

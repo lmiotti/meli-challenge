@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -120,6 +120,7 @@ fun CocktailWelcomeState() {
             modifier = Modifier.size(dimensionResource(id = R.dimen.home_welcome_image)),
             painter = painterResource(id = R.drawable.ic_drink),
             contentDescription = null,
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
         )
         Text(
             stringResource(id = R.string.home_welcome),
@@ -141,7 +142,8 @@ fun CocktailEmptyState() {
         Image(
             modifier = Modifier.size(dimensionResource(id = R.dimen.home_not_found_image)),
             painter = painterResource(id = R.drawable.ic_no_drink_found),
-            contentDescription = null
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
         )
         Text(
             stringResource(id = R.string.home_not_found),
