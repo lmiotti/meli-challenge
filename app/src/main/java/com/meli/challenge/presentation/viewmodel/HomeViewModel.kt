@@ -3,9 +3,8 @@ package com.meli.challenge.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.meli.challenge.domain.model.Cocktail
-import com.meli.challenge.domain.usecase.GetCocktailUseCase
 import com.meli.challenge.domain.model.Resource
-import com.meli.challenge.presentation.navigation.Routes
+import com.meli.challenge.domain.usecase.GetCocktailUseCase
 import com.meli.challenge.presentation.ui.intent.HomeIntent
 import com.meli.challenge.presentation.ui.state.HomeState
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,10 +1,9 @@
 package com.meli.challenge.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.meli.challenge.domain.usecase.GetDetailsUseCase
 import com.meli.challenge.domain.model.Resource
+import com.meli.challenge.domain.usecase.GetDetailsUseCase
 import com.meli.challenge.presentation.ui.intent.DetailIntent
 import com.meli.challenge.presentation.ui.state.DetailState
 import dagger.assisted.Assisted

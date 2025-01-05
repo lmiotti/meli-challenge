@@ -7,14 +7,12 @@ import com.meli.challenge.FakeValues.fakeCocktailList
 import com.meli.challenge.FakeValues.fakeError
 import com.meli.challenge.FakeValues.fakeName
 import com.meli.challenge.domain.model.Cocktail
-import com.meli.challenge.domain.usecase.GetCocktailUseCase
 import com.meli.challenge.domain.model.Resource
+import com.meli.challenge.domain.usecase.GetCocktailUseCase
 import com.meli.challenge.presentation.ui.intent.HomeIntent
 import com.meli.challenge.presentation.ui.state.HomeState
 import com.meli.challenge.presentation.viewmodel.HomeViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
